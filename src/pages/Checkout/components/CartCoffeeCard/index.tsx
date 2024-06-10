@@ -2,8 +2,21 @@ import { QuantityInput } from "../../../../components/Form/QuantityInput";
 import { Actions, CartCoffeeCardContainer } from "./styles";
 import { coffees } from "../../../../../data.json";
 import { Trash } from "@phosphor-icons/react";
+import { useState } from "react";
 
 export const CartCoffeeCard = () => {
+  const [quantity, setQuantity] = useState(1);
+
+  const incrementQuantity = () => {
+    setQuantity((state) => state + 1);
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((state) => state - 1);
+    }
+  };
+
   return (
     <CartCoffeeCardContainer>
       <div>
@@ -13,7 +26,12 @@ export const CartCoffeeCard = () => {
           <p>Expresso Tradicional</p>
 
           <Actions>
-            <QuantityInput size="sm" />
+            <QuantityInput
+              size="sm"
+              quantity={quantity}
+              onIncrementQuantity={incrementQuantity}
+              onDecrementQuantity={decrementQuantity}
+            />
 
             <button>
               <Trash size={16} />

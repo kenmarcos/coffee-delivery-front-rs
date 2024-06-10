@@ -21,9 +21,14 @@ export const QuantityInputContainer = styled.div<QuantityInputContainerProps>`
     justify-content: center;
     transition: background-color 0.2s;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: ${({ theme }) => theme.colors["base-hover"]};
       color: ${({ theme }) => theme.colors["purple-dark"]};
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
   }
 
@@ -32,5 +37,6 @@ export const QuantityInputContainer = styled.div<QuantityInputContainerProps>`
     width: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align: center;
   }
 `;

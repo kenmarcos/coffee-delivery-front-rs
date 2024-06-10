@@ -43,7 +43,7 @@ export const Actions = styled.div`
     background-color: ${({ theme }) => theme.colors["base-button"]};
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors["base-text"]};
-    ${mixins.fonts.textS};
+    ${mixins.fonts.buttonM};
     padding: 0 6px;
     height: 32px;
     display: flex;
