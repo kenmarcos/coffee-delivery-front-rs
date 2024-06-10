@@ -9,7 +9,6 @@ import {
   DescriptionContainer,
   DescriptionItem,
   HeroContainer,
-  IconContainer,
   TitleContainer,
 } from "./styles";
 
@@ -28,31 +27,22 @@ export const Hero = () => {
 
           <DescriptionContainer>
             <DescriptionItem>
-              <IconContainer>
-                <ShoppingCartSimple size={16} weight="fill" />
-              </IconContainer>
+              <ShoppingCartSimple size={32} weight="fill" />
               Compra simples e segura
             </DescriptionItem>
 
-            <DescriptionItem>
-              <IconContainer $iconBg="base-text">
-                <Package size={16} weight="fill" />
-              </IconContainer>
+            <DescriptionItem $iconBg="yellow">
+              <Package size={32} weight="fill" />
               Embalagem mantém o café intacto
             </DescriptionItem>
 
-            <DescriptionItem>
-              <IconContainer $iconBg="yellow">
-                <Timer size={16} weight="fill" />
-              </IconContainer>
+            <DescriptionItem $iconBg="base-text">
+              <Timer size={32} weight="fill" />
               Entrega rápida e rastreada
             </DescriptionItem>
 
-            <DescriptionItem>
-              <IconContainer $iconBg="purple">
-                <Coffee size={16} weight="fill" />
-              </IconContainer>
-              O café chega fresquinho até você
+            <DescriptionItem $iconBg="purple">
+              <Coffee size={32} weight="fill" />O café chega fresquinho até você
             </DescriptionItem>
           </DescriptionContainer>
         </div>

@@ -53,25 +53,22 @@ export const DescriptionContainer = styled.div`
   }
 `;
 
-export const DescriptionItem = styled.div`
+interface DescriptionItemProps {
+  $iconBg?: "yellow-dark" | "purple" | "base-text" | "yellow";
+}
+
+export const DescriptionItem = styled.div<DescriptionItemProps>`
   display: flex;
   align-items: center;
   gap: 0.75rem;
   ${mixins.fonts.textM}
   color: ${({ theme }) => theme.colors["base-text"]};
-`;
 
-interface IconContainerProps {
-  $iconBg?: "yellow-dark" | "purple" | "base-text" | "yellow";
-}
-
-export const IconContainer = styled.span<IconContainerProps>`
-  background-color: ${({ theme, $iconBg = "yellow-dark" }) =>
-    theme.colors[$iconBg]};
-  color: ${({ theme }) => theme.colors.background};
-  padding: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
+  > svg {
+    background-color: ${({ theme, $iconBg = "yellow-dark" }) =>
+      theme.colors[$iconBg]};
+    color: ${({ theme }) => theme.colors.background};
+    border-radius: 50%;
+    padding: 8px;
+  }
 `;
