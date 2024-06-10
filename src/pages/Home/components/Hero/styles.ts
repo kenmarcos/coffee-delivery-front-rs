@@ -62,12 +62,12 @@ export const DescriptionItem = styled.div`
 `;
 
 interface IconContainerProps {
-  iconBg?: "yellow-dark" | "purple" | "base-text" | "yellow";
+  $iconBg?: "yellow-dark" | "purple" | "base-text" | "yellow";
 }
 
 export const IconContainer = styled.span<IconContainerProps>`
-  background-color: ${({ theme, iconBg = "yellow-dark" }) =>
-    theme.colors[iconBg]};
+  background-color: ${({ theme, $iconBg = "yellow-dark" }) =>
+    theme.colors[$iconBg]};
   color: ${({ theme }) => theme.colors.background};
   padding: 0.5rem;
   display: flex;

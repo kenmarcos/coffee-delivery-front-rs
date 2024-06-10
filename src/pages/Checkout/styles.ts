@@ -18,7 +18,7 @@ export const CheckoutContainer = styled.div`
 `;
 
 export const OrderInfo = styled.div`
-  flex-grow: 8;
+  flex-grow: 1;
 
   h2 {
     ${mixins.fonts.titleXS};
@@ -53,12 +53,61 @@ const Section = styled.div`
 
 export const Address = styled(Section)``;
 
+export const AddressForm = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    "cep  . . ."
+    "street street street street"
+    "number complement complement complement"
+    "neighborhood city city uf";
+  row-gap: 1rem;
+  column-gap: 0.75rem;
+
+  div:nth-child(1) {
+    grid-area: cep;
+  }
+  div:nth-child(2) {
+    grid-area: street;
+  }
+  div:nth-child(3) {
+    grid-area: number;
+  }
+  div:nth-child(4) {
+    grid-area: complement;
+  }
+  div:nth-child(5) {
+    grid-area: neighborhood;
+  }
+  div:nth-child(6) {
+    grid-area: city;
+  }
+  div:nth-child(7) {
+    grid-area: uf;
+  }
+`;
+
 export const Payment = styled(Section)`
   margin-top: 0.75rem;
 `;
 
+export const PaymentForm = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
 export const SelectedCoffees = styled.div`
-  flex-grow: 7;
+  min-width: 448px;
+
+  @media (max-width: 640px) {
+    min-width: unset;
+  }
 
   h2 {
     ${mixins.fonts.titleXS};
@@ -69,4 +118,50 @@ export const SelectedCoffees = styled.div`
 export const Cart = styled(Section)`
   border-top-right-radius: 36px;
   border-bottom-left-radius: 36px;
+`;
+
+export const Divider = styled.span`
+  display: block;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors["base-button"]};
+  margin: 24px 0;
+`;
+
+export const CartInfoContainer = styled.div`
+  > div {
+    display: flex;
+    justify-content: space-between;
+    ${mixins.fonts.textM};
+    color: ${({ theme }) => theme.colors["base-text"]};
+
+    & + div {
+      margin-top: 0.75rem;
+    }
+  }
+
+  > div:last-child {
+    ${mixins.fonts.textL};
+    color: ${({ theme }) => theme.colors["base-subtitle"]};
+    font-weight: 700;
+  }
+`;
+
+export const CheckoutButton = styled.button`
+  margin-top: 1.5rem;
+  text-transform: uppercase;
+  background-color: ${({ theme }) => theme.colors["yellow"]};
+  color: ${({ theme }) => theme.colors.white};
+  ${mixins.fonts.buttonG};
+  padding: 0.75rem 0.5rem;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors["yellow-dark"]};
+  }
 `;

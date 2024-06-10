@@ -106,35 +106,3 @@ export const Actions = styled.div`
     }
   }
 `;
-
-export const Quantity = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: ${({ theme }) => theme.colors["base-button"]};
-  border-radius: 6px;
-  height: 38px;
-  overflow: hidden;
-  gap: 2px;
-
-  button {
-    background-color: transparent;
-    color: ${({ theme }) => theme.colors["purple"]};
-    padding: 12px 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors["base-hover"]};
-      color: ${({ theme }) => theme.colors["purple-dark"]};
-    }
-  }
-
-  > span {
-    display: inline-block;
-    width: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`;

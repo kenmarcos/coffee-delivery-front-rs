@@ -35,21 +35,21 @@ export const Hero = () => {
             </DescriptionItem>
 
             <DescriptionItem>
-              <IconContainer iconBg="base-text">
+              <IconContainer $iconBg="base-text">
                 <Package size={16} weight="fill" />
               </IconContainer>
               Embalagem mantém o café intacto
             </DescriptionItem>
 
             <DescriptionItem>
-              <IconContainer iconBg="yellow">
+              <IconContainer $iconBg="yellow">
                 <Timer size={16} weight="fill" />
               </IconContainer>
               Entrega rápida e rastreada
             </DescriptionItem>
 
             <DescriptionItem>
-              <IconContainer iconBg="purple">
+              <IconContainer $iconBg="purple">
                 <Coffee size={16} weight="fill" />
               </IconContainer>
               O café chega fresquinho até você
