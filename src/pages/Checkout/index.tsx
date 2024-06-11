@@ -18,6 +18,7 @@ import {
   CheckoutButton,
   PaymentForm,
   CartEmpty,
+  PaymentErrorMessage,
 } from "./styles";
 import { defaultTheme } from "../../styles/themes/default";
 import { TextInput } from "../../components/Form/TextInput";
@@ -26,9 +27,43 @@ import { Radio } from "../../components/Form/Radio";
 import { useCart } from "../../hooks/useCart";
 import { coffees } from "../../../data.json";
 import { formatPrice } from "../../utils/format";
+import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+
+const orderCreationFormSchema = z.object({
+  zipCode: z.coerce.number({
+    invalid_type_error: "CEP inválido",
+  }),
+  street: z.string().min(1, "Endereço obrigatório"),
+  number: z.string().min(1, "Número obrigatório"),
+  complement: z.string(),
+  neighborhood: z.string().min(1, "Bairro obrigatório"),
+  city: z.string().min(1, "Cidade obrigatória"),
+  countryState: z.string().min(1, "UF obrigatória"),
+  paymentMethod: z.enum(["credit", "debit", "cash"], {
+    invalid_type_error: "Informe um método de pagamento",
+  }),
+});
+
+export type OrderCreationFormData = z.infer<typeof orderCreationFormSchema>;
 
 export const Checkout = () => {
-  const { cart } = useCart();
+  const { cart, checkout } = useCart();
+
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<OrderCreationFormData>({
+    resolver: zodResolver(orderCreationFormSchema),
+  });
+
+  const selectedPaymentMethod = watch("paymentMethod");
 
   const cartItemTotal = cart.length;
 
@@ -57,9 +92,19 @@ export const Checkout = () => {
   const totalPrice = totalItemsPrice + shippingPrice;
   const formattedTotalPrice = formatPrice(totalPrice);
 
+  const handleSubmitOrder: SubmitHandler<OrderCreationFormData> = (data) => {
+    console.log("🚀 ~ handleSubmitOrder ~ data:", data);
+
+    if (cart.length === 0) {
+      return alert("É preciso ter pelo menos um item no carrinho");
+    }
+
+    checkout(data, navigate);
+  };
+
   return (
     <CheckoutContainer>
-      <OrderInfo>
+      <OrderInfo id="order" onSubmit={handleSubmit(handleSubmitOrder)}>
         <h2>Complete seu pedido</h2>
 
         <Address>
@@ -75,31 +120,60 @@ export const Checkout = () => {
 
           <AddressForm>
             <div>
-              <TextInput placeholder="CEP" />
+              <TextInput
+                placeholder="CEP"
+                {...register("zipCode")}
+                error={errors.zipCode}
+              />
             </div>
 
             <div>
-              <TextInput placeholder="Rua" />
+              <TextInput
+                placeholder="Rua"
+                {...register("street")}
+                error={errors.street}
+              />
             </div>
 
             <div>
-              <TextInput placeholder="Número" />
+              <TextInput
+                placeholder="Número"
+                {...register("number")}
+                error={errors.number}
+              />
             </div>
 
             <div>
-              <TextInput placeholder="Complemento" optional />
+              <TextInput
+                placeholder="Complemento"
+                optional
+                {...register("complement")}
+                error={errors.complement}
+              />
             </div>
 
             <div>
-              <TextInput placeholder="Bairro" />
+              <TextInput
+                placeholder="Bairro"
+                {...register("neighborhood")}
+                error={errors.neighborhood}
+              />
             </div>
 
             <div>
-              <TextInput placeholder="Cidade" />
+              <TextInput
+                placeholder="Cidade"
+                {...register("city")}
+                error={errors.city}
+              />
             </div>
 
             <div>
-              <TextInput placeholder="UF" />
+              <TextInput
+                placeholder="UF"
+                {...register("countryState")}
+                error={errors.countryState}
+              />
             </div>
           </AddressForm>
         </Address>
@@ -118,19 +192,42 @@ export const Checkout = () => {
           </header>
 
           <PaymentForm>
-            <Radio isSelected={true}>
+            <Radio
+              {...register("paymentMethod")}
+              isSelected={selectedPaymentMethod === "credit"}
+              value="credit"
+              id="credit"
+            >
               <CreditCard size={16} />
               <span>Cartão de crédito</span>
             </Radio>
-            <Radio isSelected={false}>
+
+            <Radio
+              {...register("paymentMethod")}
+              isSelected={selectedPaymentMethod === "debit"}
+              value="debit"
+              id="debit"
+            >
               <Bank size={16} />
               <span>Cartão de débito</span>
             </Radio>
-            <Radio isSelected={false}>
+
+            <Radio
+              {...register("paymentMethod")}
+              isSelected={selectedPaymentMethod === "cash"}
+              value="cash"
+              id="cash"
+            >
               <Money size={16} />
               <span>Dinheiro</span>
             </Radio>
           </PaymentForm>
+
+          {errors.paymentMethod && (
+            <PaymentErrorMessage role="alert">
+              {errors.paymentMethod.message}
+            </PaymentErrorMessage>
+          )}
         </Payment>
       </OrderInfo>
 
@@ -166,7 +263,9 @@ export const Checkout = () => {
                 </div>
               </CartInfoContainer>
 
-              <CheckoutButton>Confirmar Pedido</CheckoutButton>
+              <CheckoutButton type="submit" form="order">
+                Confirmar Pedido
+              </CheckoutButton>
             </>
           )}
         </Cart>

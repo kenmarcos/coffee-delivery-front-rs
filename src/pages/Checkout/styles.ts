@@ -17,7 +17,7 @@ export const CheckoutContainer = styled.div`
   }
 `;
 
-export const OrderInfo = styled.div`
+export const OrderInfo = styled.form`
   flex-grow: 1;
 
   h2 {
@@ -169,4 +169,12 @@ export const CheckoutButton = styled.button`
 export const CartEmpty = styled.span`
   ${mixins.fonts.textS};
   color: ${({ theme }) => theme.colors["base-subtitle"]};
+`;
+
+export const PaymentErrorMessage = styled.span`
+  display: inline-block;
+  margin-top: 16px;
+  ${mixins.fonts.textXS};
+  font-weight: 400;
+  color: red;
 `;

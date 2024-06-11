@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { mixins } from "../../../styles/mixins";
 
-export const TextInputContainer = styled.div`
+interface TextInputContainerProps {
+  $hasError: boolean;
+}
+
+export const TextInputContainer = styled.div<TextInputContainerProps>`
   width: 100%;
   background-color: ${({ theme }) => theme.colors["base-input"]};
   border: 1px solid ${({ theme }) => theme.colors["base-button"]};
@@ -18,7 +22,8 @@ export const TextInputContainer = styled.div`
   }
 
   &[data-state="blurred"] {
-    border-color: ${({ theme }) => theme.colors["base-button"]};
+    border-color: ${({ theme, $hasError }) =>
+      $hasError ? "red" : theme.colors["base-button"]};
   }
 
   > input {
@@ -41,4 +46,10 @@ export const TextInputContainer = styled.div`
     font-size: 0.75rem;
     color: ${({ theme }) => theme.colors["base-label"]};
   }
+`;
+
+export const ErrorMessage = styled.span`
+  color: red;
+  ${mixins.fonts.textXS}
+  font-weight: 400;
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { mixins } from "../../../styles/mixins";
 
-export const RadioContainer = styled.div`
+export const RadioContainer = styled.label`
   width: 100%;
   background-color: ${({ theme }) => theme.colors["base-button"]};
   padding: 1rem;
@@ -13,6 +13,7 @@ export const RadioContainer = styled.div`
   text-transform: uppercase;
   ${mixins.fonts.buttonM};
   transition: all 0.2s;
+  cursor: pointer;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors["base-hover"]};

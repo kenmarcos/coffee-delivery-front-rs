@@ -1,12 +1,17 @@
 import { ComponentProps, LegacyRef, forwardRef, useState } from "react";
-import { TextInputContainer } from "./styles";
+import { ErrorMessage, TextInputContainer } from "./styles";
+import { FieldError } from "react-hook-form";
 
 interface TextInputProps extends ComponentProps<"input"> {
   optional?: boolean;
+  error?: FieldError;
 }
 
 export const TextInput = forwardRef(
-  ({ optional, ...rest }: TextInputProps, ref: LegacyRef<HTMLInputElement>) => {
+  (
+    { optional, error, ...rest }: TextInputProps,
+    ref: LegacyRef<HTMLInputElement>
+  ) => {
     const [isFocused, setIsFocused] = useState(false);
 
     const handleFocus = () => {
@@ -18,11 +23,25 @@ export const TextInput = forwardRef(
     };
 
     return (
-      <TextInputContainer data-state={isFocused ? "focused" : "blurred"}>
-        <input ref={ref} {...rest} onFocus={handleFocus} onBlur={handleBlur} />
+      <>
+        <TextInputContainer
+          $hasError={!!error}
+          data-state={isFocused ? "focused" : "blurred"}
+        >
+          <input
+            ref={ref}
+            {...rest}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          />
 
-        {!!optional && <span>Opcional</span>}
-      </TextInputContainer>
+          {!!optional && <span>Opcional</span>}
+        </TextInputContainer>
+
+        {error?.message && (
+          <ErrorMessage role="alert">{error.message}</ErrorMessage>
+        )}
+      </>
     );
   }
 );
