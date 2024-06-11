@@ -4,9 +4,12 @@ import { mixins } from "../../styles/mixins";
 export const SuccessContainer = styled.div`
   max-width: 1120px;
   margin: 0 auto;
+  padding-top: 130px;
 
   @media (max-width: 1120px) {
-    padding: 0 1rem;
+    padding-top: 100px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 `;
 

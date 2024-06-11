@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { mixins } from "../../styles/mixins";
 
 export const HeaderContainer = styled.header`
+  position: fixed;
+  z-index: 10;
+  background-color: ${({ theme }) => theme.colors["background"]};
+  width: 100%;
   padding: 2rem 0;
 
   @media (max-width: 1120px) {
@@ -30,9 +34,19 @@ export const Navigation = styled.nav`
     align-items: center;
     justify-content: center;
     position: relative;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colors["yellow"]};
+
+      > svg {
+        color: ${({ theme }) => theme.colors.white};
+      }
+    }
 
     > svg {
       color: ${({ theme }) => theme.colors["yellow-dark"]};
+      transition: color 0.2s;
     }
 
     > span {

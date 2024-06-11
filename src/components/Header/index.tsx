@@ -8,6 +8,7 @@ export const Header = () => {
   const { cart } = useCart();
 
   const cartItemTotal = cart.length;
+  const isCartEmpty = cartItemTotal === 0;
 
   return (
     <HeaderContainer>
@@ -27,7 +28,8 @@ export const Header = () => {
 
           <NavLink to="/checkout">
             <ShoppingCartSimple size={22} weight="fill" />
-            <span>{cartItemTotal}</span>
+
+            {!isCartEmpty && <span>{cartItemTotal}</span>}
           </NavLink>
         </Navigation>
       </div>

@@ -7,13 +7,16 @@ export const CheckoutContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 2rem;
+  padding-top: 130px;
 
   @media (max-width: 980px) {
     flex-direction: column;
   }
 
   @media (max-width: 1120px) {
-    padding: 0 1rem;
+    padding-top: 100px;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 `;
 

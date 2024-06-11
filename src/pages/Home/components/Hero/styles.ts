@@ -7,6 +7,7 @@ export const HeroContainer = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
+  padding-top: 100px;
 
   > div {
     display: flex;
@@ -14,17 +15,17 @@ export const HeroContainer = styled.div`
     gap: 3.5rem;
 
     > img {
-      @media (max-width: 992px) {
+      @media (max-width: 1120px) {
         display: none;
       }
     }
   }
 
   @media (max-width: 640px) {
-    margin-top: 1.5rem;
+    padding: 200px 1rem 0;
   }
 
-  @media (max-width: 1120px) {
+  @media (min-width: 640px) and (max-width: 1120px) {
     padding: 0 1rem;
   }
 `;
