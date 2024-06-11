@@ -2,8 +2,13 @@ import { HeaderContainer, LocationBadge, Navigation } from "./styles";
 import logo from "../../assets/logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { MapPin, ShoppingCartSimple } from "@phosphor-icons/react";
+import { useCart } from "../../hooks/useCart";
 
 export const Header = () => {
+  const { cart } = useCart();
+
+  const cartItemTotal = cart.length;
+
   return (
     <HeaderContainer>
       <div>
@@ -22,7 +27,7 @@ export const Header = () => {
 
           <NavLink to="/checkout">
             <ShoppingCartSimple size={22} weight="fill" />
-            <span>3</span>
+            <span>{cartItemTotal}</span>
           </NavLink>
         </Navigation>
       </div>

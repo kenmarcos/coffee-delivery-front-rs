@@ -9,15 +9,8 @@ import {
 } from "./styles";
 import { QuantityInput } from "../../../../components/Form/QuantityInput";
 import { useState } from "react";
-
-interface Coffee {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-  price: number;
-  image: string;
-}
+import { useCart } from "../../../../hooks/useCart";
+import { Coffee } from "../../../../types";
 
 interface CoffeeCardProps {
   coffee: Coffee;
@@ -25,6 +18,8 @@ interface CoffeeCardProps {
 
 export const CoffeeCard = ({ coffee }: CoffeeCardProps) => {
   const [quantity, setQuantity] = useState(1);
+
+  const { addItemToCart } = useCart();
 
   const incrementQuantity = () => {
     setQuantity((state) => state + 1);
@@ -34,6 +29,15 @@ export const CoffeeCard = ({ coffee }: CoffeeCardProps) => {
     if (quantity > 1) {
       setQuantity((state) => state - 1);
     }
+  };
+
+  const handleAddItemToCart = () => {
+    addItemToCart({
+      id: coffee.id,
+      quantity,
+    });
+
+    setQuantity(1);
   };
 
   return (
@@ -67,7 +71,7 @@ export const CoffeeCard = ({ coffee }: CoffeeCardProps) => {
             onDecrementQuantity={decrementQuantity}
           />
 
-          <button>
+          <button onClick={handleAddItemToCart}>
             <ShoppingCartSimple size={22} weight="fill" />
           </button>
         </Actions>

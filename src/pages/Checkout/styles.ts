@@ -165,3 +165,8 @@ export const CheckoutButton = styled.button`
     background-color: ${({ theme }) => theme.colors["yellow-dark"]};
   }
 `;
+
+export const CartEmpty = styled.span`
+  ${mixins.fonts.textS};
+  color: ${({ theme }) => theme.colors["base-subtitle"]};
+`;

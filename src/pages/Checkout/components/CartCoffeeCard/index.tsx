@@ -1,29 +1,41 @@
 import { QuantityInput } from "../../../../components/Form/QuantityInput";
 import { Actions, CartCoffeeCardContainer } from "./styles";
-import { coffees } from "../../../../../data.json";
 import { Trash } from "@phosphor-icons/react";
-import { useState } from "react";
+import { CartCoffee } from "../../../../types";
+import { formatPrice } from "../../../../utils/format";
+import { useCart } from "../../../../hooks/useCart";
 
-export const CartCoffeeCard = () => {
-  const [quantity, setQuantity] = useState(1);
+interface CartCoffeeCardProps {
+  cartCoffee: CartCoffee;
+}
+
+export const CartCoffeeCard = ({ cartCoffee }: CartCoffeeCardProps) => {
+  const { removeItemFromCart, incrementItemQuantity, decrementItemQuantity } =
+    useCart();
+
+  const { quantity } = cartCoffee;
 
   const incrementQuantity = () => {
-    setQuantity((state) => state + 1);
+    incrementItemQuantity(cartCoffee.id);
   };
 
   const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity((state) => state - 1);
-    }
+    decrementItemQuantity(cartCoffee.id);
   };
+
+  const handleRemoveItem = () => {
+    removeItemFromCart(cartCoffee.id);
+  };
+
+  const formattedPrice = formatPrice(cartCoffee.price * quantity);
 
   return (
     <CartCoffeeCardContainer>
       <div>
-        <img src={coffees[0].image} alt="" />
+        <img src={cartCoffee.image} alt={cartCoffee.title} />
 
         <div>
-          <p>Expresso Tradicional</p>
+          <p>{cartCoffee.title}</p>
 
           <Actions>
             <QuantityInput
@@ -33,7 +45,7 @@ export const CartCoffeeCard = () => {
               onDecrementQuantity={decrementQuantity}
             />
 
-            <button>
+            <button onClick={handleRemoveItem}>
               <Trash size={16} />
               Remover
             </button>
@@ -41,7 +53,7 @@ export const CartCoffeeCard = () => {
         </div>
       </div>
 
-      <aside>R$ 9,90</aside>
+      <aside>{formattedPrice}</aside>
     </CartCoffeeCardContainer>
   );
 };

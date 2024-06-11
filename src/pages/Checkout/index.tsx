@@ -17,13 +17,46 @@ import {
   CartInfoContainer,
   CheckoutButton,
   PaymentForm,
+  CartEmpty,
 } from "./styles";
 import { defaultTheme } from "../../styles/themes/default";
 import { TextInput } from "../../components/Form/TextInput";
 import { CartCoffeeCard } from "./components/CartCoffeeCard";
 import { Radio } from "../../components/Form/Radio";
+import { useCart } from "../../hooks/useCart";
+import { coffees } from "../../../data.json";
+import { formatPrice } from "../../utils/format";
 
 export const Checkout = () => {
+  const { cart } = useCart();
+
+  const cartItemTotal = cart.length;
+
+  const isCartEmpty = cartItemTotal === 0;
+  const coffeesInCart = cart.map((item) => {
+    const coffeeInfo = coffees.find((coffee) => coffee.id === item.id);
+
+    if (!coffeeInfo) {
+      throw new Error("Invalid coffee.");
+    }
+
+    return {
+      ...coffeeInfo,
+      quantity: item.quantity,
+    };
+  });
+
+  const shippingPrice = 3.5;
+  const formattedShippingPrice = formatPrice(shippingPrice);
+
+  const totalItemsPrice = coffeesInCart.reduce((total, coffee) => {
+    return total + coffee.price * coffee.quantity;
+  }, 0);
+  const formattedTotalItemsPrice = formatPrice(totalItemsPrice);
+
+  const totalPrice = totalItemsPrice + shippingPrice;
+  const formattedTotalPrice = formatPrice(totalPrice);
+
   return (
     <CheckoutContainer>
       <OrderInfo>
@@ -105,32 +138,37 @@ export const Checkout = () => {
         <h2>Cafés selecionados</h2>
 
         <Cart>
-          <CartCoffeeCard />
+          {isCartEmpty && <CartEmpty>Seu carrinho esta vazio</CartEmpty>}
 
-          <Divider />
+          {!isCartEmpty && (
+            <>
+              {coffeesInCart.map((cartCoffee) => (
+                <div key={cartCoffee.id}>
+                  <CartCoffeeCard cartCoffee={cartCoffee} />
+                  <Divider />
+                </div>
+              ))}
 
-          <CartCoffeeCard />
+              <CartInfoContainer>
+                <div>
+                  <span>Total de itens</span>
+                  <span>{formattedTotalItemsPrice}</span>
+                </div>
 
-          <Divider />
+                <div>
+                  <span>Entrega</span>
+                  <span>{formattedShippingPrice}</span>
+                </div>
 
-          <CartInfoContainer>
-            <div>
-              <span>Total de itens</span>
-              <span>R$ 29,70</span>
-            </div>
+                <div>
+                  <span>Total</span>
+                  <span>{formattedTotalPrice}</span>
+                </div>
+              </CartInfoContainer>
 
-            <div>
-              <span>Entrega</span>
-              <span>R$ 3,50</span>
-            </div>
-
-            <div>
-              <span>Total</span>
-              <span>R$ 33,20</span>
-            </div>
-          </CartInfoContainer>
-
-          <CheckoutButton>Confirmar Pedido</CheckoutButton>
+              <CheckoutButton>Confirmar Pedido</CheckoutButton>
+            </>
+          )}
         </Cart>
       </SelectedCoffees>
     </CheckoutContainer>
