@@ -7,8 +7,26 @@ import {
 } from "./styles";
 import deliveryImg from "../../assets/delivery.png";
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
+import { useCart } from "../../hooks/useCart";
+import { useParams } from "react-router-dom";
 
 export const Success = () => {
+  const { orders } = useCart();
+
+  const params = useParams();
+
+  const order = orders.find((order) => order.id === Number(params.orderId));
+
+  if (!order?.id) {
+    return null;
+  }
+
+  const paymentMethod = {
+    credit: "Cartão de Crédito",
+    debit: "Cartão de Débito",
+    cash: "Dinheiro",
+  };
+
   return (
     <SuccessContainer>
       <Heading>
@@ -25,10 +43,15 @@ export const Success = () => {
 
               <div>
                 <span>
-                  Entrega em <strong>Rua João Martinelli, 102</strong>
+                  Entrega em{" "}
+                  <strong>
+                    {order.street}, {order.number}
+                  </strong>
                 </span>
 
-                <span>Farrapos - Porto ALegre, RS</span>
+                <span>
+                  {order.neighborhood} - {order.city}, {order.countryState}
+                </span>
               </div>
             </InfoItem>
 
@@ -48,7 +71,7 @@ export const Success = () => {
               <div>
                 <span>Pagamento na entrega</span>
 
-                <strong>Cartão de Crédito</strong>
+                <strong>{paymentMethod[order.paymentMethod]}</strong>
               </div>
             </InfoItem>
           </div>

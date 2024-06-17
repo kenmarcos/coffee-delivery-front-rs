@@ -93,8 +93,6 @@ export const Checkout = () => {
   const formattedTotalPrice = formatPrice(totalPrice);
 
   const handleSubmitOrder: SubmitHandler<OrderCreationFormData> = (data) => {
-    console.log("🚀 ~ handleSubmitOrder ~ data:", data);
-
     if (cart.length === 0) {
       return alert("É preciso ter pelo menos um item no carrinho");
     }
